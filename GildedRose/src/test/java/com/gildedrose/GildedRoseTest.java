@@ -6,15 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class GildedRoseTest {
 
-//    //Test qui compare les noms des 2 articles
-//    @Test
-//    void foo() {
-//        Item[] items = new Item[] { new Item("foo", 0, 0) };
-//        GildedRose app = new GildedRose(items);
-//        app.updateQuality();
-//        assertEquals("fixme", app.items[0].name);
-//    }
-
     //Test qui vérifie que la qualité ne soit jamais négative
     @Test
     public void updateStandardItemQuality(){
@@ -61,6 +52,15 @@ class GildedRoseTest {
         GildedRose app = new GildedRose(items);
         app.updateQuality();
         assertEquals(50, app.items[0].quality);
+    }
+
+    //Teste quand le sellin est inférieur à 0
+    @Test
+    public void updateAgedBrieSellIn(){
+        Item[] items = new Item[] {new Item ("Aged Brie", -1, 10)};
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertEquals(12, app.items[0].quality);
     }
 
     //Sulfuras
