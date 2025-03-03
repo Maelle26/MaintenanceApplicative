@@ -106,13 +106,22 @@ class GildedRoseTest {
     //Conjured
 
     //Test que la qualité de "Conjured" diminue 2 foiq plus vite que les autres produits
-//    @Test
-//    public void updateConjuredQuality(){
-//        Item[] items = new Item[] {new Item ("Conjured", 2, 20)};
-//        GildedRose app = new GildedRose(items);
-//        app.updateQuality();
-//        assertEquals(18, app.items[0].quality);
-//    }
+    @Test
+    public void updateConjuredQuality(){
+        Item[] items = new Item[] {new Item ("Conjured", 2, 20)};
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertEquals(18, app.items[0].quality);
+    }
+
+    //Teste quand le sellin est inférieur à 0
+    @Test
+    public void updateConjuredSellIn(){
+        Item[] items = new Item[] {new Item ("Conjured", -1, 20)};
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertEquals(16, app.items[0].quality);
+    }
 
 
 

@@ -20,6 +20,9 @@ class GildedRose {
                 case "Sulfuras, Hand of Ragnaros":
                     handleSulfuras(items[i]);
                     break;
+                case "Conjured":
+                    handleConjured(items[i]);
+                    break;
                 default:
                     handleNormalItem(items[i]);
                     break;
@@ -78,7 +81,20 @@ class GildedRose {
             item.quality = 0;
         }
     }
-    
+
+    //Gère le casdes produit "Conjured"
+    public void handleConjured(Item item) {
+        if (item.quality > 0) {
+            item.quality = item.quality - 2;
+        }
+        item.sellIn = item.sellIn - 1;
+        if (item.sellIn < 0) {
+            if (item.quality > 0) {
+                item.quality = item.quality - 2;
+            }
+        }
+    }
+
 //    public void updateQuality() {
 //        for (int i = 0; i < items.length; i++) {
 //            if (!items[i].name.equals("Aged Brie")
