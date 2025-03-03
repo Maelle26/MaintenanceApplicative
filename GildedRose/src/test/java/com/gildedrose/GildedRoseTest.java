@@ -9,7 +9,7 @@ class GildedRoseTest {
     //Test qui vérifie que la qualité ne soit jamais négative
     @Test
     public void updateStandardItemQuality(){
-        Item[] items = new Item[] {new Item ("carotte", 2, 0)};
+        StockItems[] items = new StockItems[] {new NormalItems ("carotte", 2, 0)};
         GildedRose app = new GildedRose(items);
         app.updateQuality();
         assertEquals(0, app.items[0].quality);
@@ -18,7 +18,7 @@ class GildedRoseTest {
     //Test quand un produit standard à un sellin < 0 et que la qualité est supérieure à 0
     @Test
     public void updateStandardItemSellIn(){
-        Item[] items = new Item[] {new Item ("carotte", -1, 10)};
+        StockItems[] items = new StockItems[] {new NormalItems ("carotte", -1, 10)};
         GildedRose app = new GildedRose(items);
         app.updateQuality();
         assertEquals(8, app.items[0].quality);
@@ -27,7 +27,7 @@ class GildedRoseTest {
     //Test que la qualité ne soit jamais supérieure à 50 (produits lambda)
     @Test
     public void updateStandardItemMaxQuality(){
-        Item[] items = new Item[] {new Item ("carotte", 2, 50)};
+        StockItems[] items = new StockItems[] {new NormalItems ("carotte", 2, 50)};
         GildedRose app = new GildedRose(items);
         app.updateQuality();
         assertEquals(49, app.items[0].quality);
@@ -39,7 +39,7 @@ class GildedRoseTest {
     //Test que la qualité du "Aged Brie" augmente
     @Test
     public void updateAgedBrieQuality(){
-        Item[] items = new Item[] {new Item ("Aged Brie", 2, 0)};
+        StockItems[] items = new StockItems[] {new AgedBrie ("Aged Brie", 2, 0)};
         GildedRose app = new GildedRose(items);
         app.updateQuality();
         assertEquals(1, app.items[0].quality);
@@ -48,7 +48,7 @@ class GildedRoseTest {
     //Test que la qualité di "Aged Brie" ne dépasse pas 50
     @Test
     public void updateAgedBrieMaxQuality(){
-        Item[] items = new Item[] {new Item ("Aged Brie", 2, 50)};
+        StockItems[] items = new StockItems[] {new AgedBrie ("Aged Brie", 2, 50)};
         GildedRose app = new GildedRose(items);
         app.updateQuality();
         assertEquals(50, app.items[0].quality);
@@ -57,7 +57,7 @@ class GildedRoseTest {
     //Teste quand le sellin est inférieur à 0
     @Test
     public void updateAgedBrieSellIn(){
-        Item[] items = new Item[] {new Item ("Aged Brie", -1, 10)};
+        StockItems[] items = new StockItems[] {new AgedBrie ("Aged Brie", -1, 10)};
         GildedRose app = new GildedRose(items);
         app.updateQuality();
         assertEquals(12, app.items[0].quality);
@@ -68,7 +68,7 @@ class GildedRoseTest {
     //Test que la qualité de "Sulfuras" soit toujours à 80
     @Test
     public void updateAgedSulfurasQuality(){
-        Item[] items = new Item[] {new Item ("Sulfuras, Hand of Ragnaros", 2, 80)};
+        StockItems[] items = new StockItems[] {new Sulfuras ("Sulfuras, Hand of Ragnaros", 2)};
         GildedRose app = new GildedRose(items);
         app.updateQuality();
         assertEquals(80, app.items[0].quality);
@@ -80,7 +80,7 @@ class GildedRoseTest {
     // qualité tombe à 0 après le concert.
     @Test
     public void updateAgedBackstagePassesQuality(){
-        Item[] items = new Item[] {new Item ("Backstage passes to a TAFKAL80ETC concert", 10, 20)};
+        StockItems[] items = new StockItems[] {new BackstagePasses ("Backstage passes to a TAFKAL80ETC concert", 10, 20)};
         GildedRose app = new GildedRose(items);
         app.updateQuality();
         assertEquals(22, app.items[0].quality);
@@ -88,16 +88,16 @@ class GildedRoseTest {
 
     @Test
     public void updateAgedBackstagePassesQuality2(){
-        Item[] items = new Item[] {new Item ("Backstage passes to a TAFKAL80ETC concert", 5, 20)};
+        StockItems[] items = new StockItems[] {new BackstagePasses ("Backstage passes to a TAFKAL80ETC concert", 5, 20)};
         GildedRose app = new GildedRose(items);
         app.updateQuality();
         assertEquals(23, app.items[0].quality);
     }
 
-    //Teste quand il rne rste plus de jours
+    //Teste quand il ne rste plus de jours
     @Test
     public void updateAgedBackstagePassesQuality3(){
-        Item[] items = new Item[] {new Item ("Backstage passes to a TAFKAL80ETC concert", 0, 20)};
+        StockItems[] items = new StockItems[] {new BackstagePasses ("Backstage passes to a TAFKAL80ETC concert", 0, 20)};
         GildedRose app = new GildedRose(items);
         app.updateQuality();
         assertEquals(0, app.items[0].quality);
@@ -108,7 +108,7 @@ class GildedRoseTest {
     //Test que la qualité de "Conjured" diminue 2 foiq plus vite que les autres produits
     @Test
     public void updateConjuredQuality(){
-        Item[] items = new Item[] {new Item ("Conjured", 2, 20)};
+        StockItems[] items = new StockItems[] {new Conjured ("Conjured", 2, 20)};
         GildedRose app = new GildedRose(items);
         app.updateQuality();
         assertEquals(18, app.items[0].quality);
@@ -117,7 +117,7 @@ class GildedRoseTest {
     //Teste quand le sellin est inférieur à 0
     @Test
     public void updateConjuredSellIn(){
-        Item[] items = new Item[] {new Item ("Conjured", -1, 20)};
+        StockItems[] items = new StockItems[] {new Conjured ("Conjured", -1, 20)};
         GildedRose app = new GildedRose(items);
         app.updateQuality();
         assertEquals(16, app.items[0].quality);
