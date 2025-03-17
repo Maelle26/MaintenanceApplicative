@@ -11,10 +11,11 @@ import java.util.Scanner;
 public class Main {
     static CalendarManager calendar = new CalendarManager();
     private static final Scanner scanner = new Scanner(System.in);
-    private static final List<String> utilisateurs = new ArrayList<>(); //liste des utilisateurs enregistrés
-    private static final List<String> motsDePasses = new ArrayList<>(); //liste des mots de passes des utilisateurs enregistrés
-    private static final List<Event> evenements = new ArrayList<>(); //liste des événements
+    private static final List<Utilisateur> utilisateurs = new ArrayList<>(); // liste des utilisateurs enregistrés
+    private static final List<String> motsDePasses = new ArrayList<>(); // liste des mots de passes des utilisateurs enregistrés
     protected static boolean continuer = true;
+
+    private static Connexion connexionManager = new Connexion(utilisateurs, motsDePasses, scanner);
 
     public static void main(String[] args) {
         while (true) {
@@ -22,10 +23,12 @@ public class Main {
             String choix = scanner.nextLine();
             switch (choix) {
                 case "1":
-                    connecterUtilisateur();
+                    if (connexionManager.connecterUtilisateur()) {
+                        menuUtilisateur();
+                    }
                     break;
                 case "2":
-                    creerCompte();
+                    connexionManager.creerCompte();
                     break;
                 case "3":
                     System.out.println("Au revoir !");
@@ -56,82 +59,41 @@ public class Main {
                 "                                                                                  |___/");
         System.out.println("1 - Se connecter");
         System.out.println("2 - Créer un compte");
-        //        System.out.println("3. Quitter");
-        System.out.println("Choix : ");
-
-    }
-
-    /**
-     * Connecte les utilisateurs inscrits
-     */
-    private static void connecterUtilisateur() {
-        System.out.print("Nom d'utilisateur : ");
-        String nom = scanner.nextLine();
-        System.out.print("Mot de passe : ");
-        String mdp = scanner.nextLine();
-
-        for (int i = 0; i < utilisateurs.size(); i++) {
-            if (utilisateurs.get(i).equals(nom) && motsDePasses.get(i).equals(mdp)) {
-                System.out.println("Connexion réussie !");
-                menuUtilisateur(nom);
-                return;
-            }
-        }
-        System.out.println("Échec de connexion, identifiants incorrects.");
-    }
-
-    /**
-     * Créer un compte utilisateur
-     */
-    private static void creerCompte() {
-        System.out.print("Choisissez un nom d'utilisateur : ");
-        String nom = scanner.nextLine();
-        if (utilisateurs.contains(nom)) {
-            System.out.println("Ce nom d'utilisateur existe déjà.");
-            return;
-        }
-        System.out.print("Choisissez un mot de passe : ");
-        String mdp = scanner.nextLine();
-        utilisateurs.add(nom);
-        motsDePasses.add(mdp);
-        System.out.println("Compte créé avec succès !");
+        System.out.println("3 - Quitter");
+        System.out.print("Choix : ");
     }
 
     /**
      * Affiche le menu de l'utilisateur
-     * @param utilisateur le nom de l'utilisateur
      */
-    private static void menuUtilisateur(String utilisateur) {
-        while (continuer && utilisateur != null) {
-            System.out.println("\nBonjour, " + utilisateur);
-                System.out.println("=== Menu Gestionnaire d'Événements ===");
-                System.out.println("1 - Voir les événements");
-                System.out.println("2 - Ajouter un rendez-vous perso");
-                System.out.println("3 - Ajouter une réunion");
-                System.out.println("4 - Ajouter un évènement périodique");
-                System.out.println("5 - Se déconnecter");
-                System.out.print("Votre choix : ");
+    private static void menuUtilisateur() {
+        while (continuer) {
+            System.out.println("\n=== Menu Gestionnaire d'Événements ===");
+            System.out.println("1 - Voir les événements");
+            System.out.println("2 - Ajouter un rendez-vous perso");
+            System.out.println("3 - Ajouter une réunion");
+            System.out.println("4 - Ajouter un évènement périodique");
+            System.out.println("5 - Se déconnecter");
+            System.out.print("Votre choix : ");
             String choix = scanner.nextLine();
 
             switch (choix) {
                 case "1":
-                    voirEvenement(utilisateur);
+                    voirEvenement();
                     break;
                 case "2":
-                    ajouterRdvPerso(utilisateur);
+                    ajouterRdvPerso();
                     break;
                 case "3":
-                    ajouterReunion(utilisateur);
+                    ajouterReunion();
                     break;
                 case "4":
-                    ajouterEvenementPeriodique(utilisateur);
+                    ajouterEvenementPeriodique();
                     break;
                 case "5":
-                        System.out.println("Déconnexion ! Voulez-vous continuer ? (O/N)");
-                        continuer = scanner.nextLine().trim().equalsIgnoreCase("oui");
-
-                        utilisateur = null;
-
+                    System.out.println("Déconnexion !");
+                    continuer = false;
+                    break;
                 default:
                     System.out.println("Choix invalide, veuillez réessayer.");
             }
@@ -140,9 +102,8 @@ public class Main {
 
     /**
      * Ajout d'un evenement periodique à un utilisateur
-     * @param utilisateur le nom de l'utilisateur
      */
-    private static void ajouterEvenementPeriodique(String utilisateur) {
+    private static void ajouterEvenementPeriodique() {
         // Ajout simplifié d'une réunion
         System.out.print("Titre de l'événement : ");
         String titre3 = scanner.nextLine();
@@ -159,7 +120,7 @@ public class Main {
         System.out.print("Frequence (en jours) : ");
         int frequence = Integer.parseInt(scanner.nextLine());
 
-        calendar.ajouterEvent("PERIODIQUE", titre3, utilisateur,
+        calendar.ajouterEvent("PERIODIQUE", titre3, utilisateurs.get(0).getNom(),
                 LocalDateTime.of(annee3, moisRdv3, jourRdv3, heure3, minute3), 0,
                 "", "", frequence);
 
@@ -168,9 +129,8 @@ public class Main {
 
     /**
      * Ajout d'un rdv perso à un utilisateur
-     * @param utilisateur le nom de l'utilisateur
      */
-    private static void ajouterRdvPerso(String utilisateur) {
+    private static void ajouterRdvPerso() {
         // Ajout simplifié d'un RDV personnel
         System.out.print("Titre de l'événement : ");
         String titre = scanner.nextLine();
@@ -187,7 +147,7 @@ public class Main {
         System.out.print("Durée (en minutes) : ");
         int duree = Integer.parseInt(scanner.nextLine());
 
-        calendar.ajouterEvent("RDV_PERSONNEL", titre, utilisateur,
+        calendar.ajouterEvent("RDV_PERSONNEL", titre, utilisateurs.get(0).getNom(),
                 LocalDateTime.of(annee, moisRdv, jourRdv, heure, minute), duree,
                 "", "", 0);
 
@@ -196,9 +156,8 @@ public class Main {
 
     /**
      * Ajout simplifié d'une réunion à un utilisateur
-     * @param utilisateur le nom de l'utilisateur
      */
-    private static void ajouterReunion(String utilisateur) {
+    private static void ajouterReunion() {
         // Ajout simplifié d'une réunion
                         System.out.print("Titre de l'événement : ");
                         String titre2 = scanner.nextLine();
@@ -217,7 +176,7 @@ public class Main {
                         System.out.println("Lieu :");
                         String lieu = scanner.nextLine();
 
-                        String participants = utilisateur;
+                        String participants = utilisateurs.get(0).getNom();
 
                         boolean encore = true;
                         System.out.println("Ajouter un participant ? (oui / non)");
@@ -227,7 +186,7 @@ public class Main {
                             participants += ", " + scanner.nextLine();
                         }
 
-                        calendar.ajouterEvent("REUNION", titre2, utilisateur,
+                        calendar.ajouterEvent("REUNION", titre2, utilisateurs.get(0).getNom(),
                                 LocalDateTime.of(annee2, moisRdv2, jourRdv2, heure2, minute2), duree2,
                                 lieu, participants, 0);
 
@@ -236,9 +195,8 @@ public class Main {
 
     /**
      * Permet de voir la liste des événements en fonction de la période choisie
-     * @param utilisateur le nom de l'utilisateur
      */
-    private static void voirEvenement(String utilisateur) {
+    private static void voirEvenement() {
         System.out.println("\n=== Menu de visualisation d'Événements ===");
         System.out.println("1 - Afficher TOUS les événements");
         System.out.println("2 - Afficher les événements d'un MOIS précis");

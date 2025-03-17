@@ -2,6 +2,7 @@ package org.example;
 
 import java.time.LocalDateTime;
 
+// Classe Event qui représente un événement dans le calendrier
 public class Event {
     public String type; // "RDV_PERSONNEL", "REUNION", "PERIODIQUE"
     public String title;
@@ -24,6 +25,7 @@ public class Event {
         this.frequenceJours = frequenceJours;
     }
 
+    //A ENLEVEER
     public String description() {
         String desc = "";
         if (type.equals("RDV_PERSONNEL")) {

@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+// Classe CalendarManager qui gère les événements du calendrier
 public class CalendarManager {
     public List<Event> events;
 
