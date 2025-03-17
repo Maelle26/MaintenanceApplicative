@@ -13,7 +13,7 @@ public class Main {
     private static final Scanner scanner = new Scanner(System.in);
     private static final List<String> utilisateurs = new ArrayList<>(); //liste des utilisateurs enregistrés
     private static final List<String> motsDePasses = new ArrayList<>(); //liste des mots de passes des utilisateurs enregistrés
-    private static final List<Evenement> evenements = new ArrayList<>(); //liste des événements
+    private static final List<Event> evenements = new ArrayList<>(); //liste des événements
     protected static boolean continuer = true;
 
     public static void main(String[] args) {
