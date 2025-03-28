@@ -69,5 +69,24 @@ public class TestCalendrier {
         assertFalse(evenementsTrouves.contains(evenement3)); //Pas dans la liste
     }
 
+    @Test
+    public void testDetectionConflitEvenements() {
+        // Création du calendrier
+        CalendarManager calendrier = new CalendarManager();
+
+        // Création de deux événements qui se chevauchent
+        Event event1 = new AnniversaireEvent("Anniversaire de Pierre", "Pierre",
+                LocalDateTime.of(2024, 3, 28, 14, 0), 60, "un gâteau"); // 14:00 - 15:00
+
+        Event event2 = new AnniversaireEvent("Anniversaire de Marie", "Marie",
+                LocalDateTime.of(2024, 3, 28, 14, 30), 90, "une montre"); // 14:30 - 16:00 (chevauchement)
+
+        // Ajout du premier événement
+        calendrier.ajouterEvent(event1);
+
+        // Vérification qu'il y a un chevauchement
+        assertTrue(calendrier.conflit(event1, event2));
+    }
+
 
 }
