@@ -239,7 +239,8 @@ public class Main {
         System.out.println("2 - Afficher les événements d'un MOIS précis");
         System.out.println("3 - Afficher les événements d'une SEMAINE précise");
         System.out.println("4 - Afficher les événements d'un JOUR précis");
-        System.out.println("5 - Retour");
+        System.out.println("5 - Afficher les événements d'une PÉRIODE précise");
+        System.out.println("6 - Retour");
         System.out.print("Votre choix : ");
 
         String choix = scanner.nextLine();
@@ -289,6 +290,37 @@ public class Main {
                 LocalDateTime finJour = debutJour.plusDays(1).minusSeconds(1);
 
                 afficherListe(calendar.eventsDansPeriode(debutJour, finJour));
+                break;
+
+            case "5":
+                //Période de debut
+                System.out.print("Entrez l'année de début (AAAA) : ");
+                int anneeDebut = Integer.parseInt(scanner.nextLine());
+                System.out.print("Entrez le mois de début (1-12) : ");
+                int moisDebut = Integer.parseInt(scanner.nextLine());
+                System.out.print("Entrez le jour de début (1-31) : ");
+                int jourDebut = Integer.parseInt(scanner.nextLine());
+                System.out.print("Entrez l'heure de début (0-23) : ");
+                int heureDebut = Integer.parseInt(scanner.nextLine());
+                System.out.print("Entrez les minutes de début (0-59) : ");
+                int minuteDebut = Integer.parseInt(scanner.nextLine());
+
+                //Période de fin
+                System.out.print("Entrez l'année de fin (AAAA) : ");
+                int anneeFin = Integer.parseInt(scanner.nextLine());
+                System.out.print("Entrez le mois de fin (1-12) : ");
+                int moisFin = Integer.parseInt(scanner.nextLine());
+                System.out.print("Entrez le jour de fin (1-31) : ");
+                int jourFin = Integer.parseInt(scanner.nextLine());
+                System.out.print("Entrez l'heure de fin (0-23) : ");
+                int heureFin = Integer.parseInt(scanner.nextLine());
+                System.out.print("Entrez les minutes de fin (0-59) : ");
+                int minuteFin = Integer.parseInt(scanner.nextLine());
+
+                LocalDateTime debutPeriode = LocalDateTime.of(anneeDebut, moisDebut, jourDebut, heureDebut, minuteDebut);
+                LocalDateTime finPeriode = LocalDateTime.of(anneeFin, moisFin, jourFin, heureFin, minuteFin);
+
+                afficherListe(calendar.eventsDansPeriode(debutPeriode, finPeriode));
                 break;
         }
     }

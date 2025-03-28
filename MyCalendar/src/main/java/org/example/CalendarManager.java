@@ -102,4 +102,14 @@ public class CalendarManager {
             System.out.println(e.description());
         }
     }
+
+    public List<Event> obtenirEvenementsParPeriode(LocalDateTime debutPeriode, LocalDateTime finPeriode) {
+        List<Event> evenementsTrouves = new ArrayList<>();
+        for (Event e : events) {
+            if (e.dateDebut.isAfter(debutPeriode) && e.dateDebut.isBefore(finPeriode)) {
+                evenementsTrouves.add(e);
+            }
+        }
+        return evenementsTrouves;
+    }
 }
