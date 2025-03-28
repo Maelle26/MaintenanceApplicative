@@ -1,6 +1,4 @@
-import org.example.AnniversaireEvent;
-import org.example.CalendarManager;
-import org.example.Event;
+import org.example.*;
 import org.junit.Test;
 
 import java.time.LocalDateTime;
@@ -69,6 +67,9 @@ public class TestCalendrier {
         assertFalse(evenementsTrouves.contains(evenement3)); //Pas dans la liste
     }
 
+    /**
+     * Fonctionnalités n°3: Controle automatique des conflits
+     */
     @Test
     public void testDetectionConflitEvenements() {
         // Création du calendrier
@@ -88,5 +89,60 @@ public class TestCalendrier {
         assertTrue(calendrier.conflit(event1, event2));
     }
 
+    /**
+     * Fonctionnalités n°4: Descritpion en fonction du type d'événement
+     */
+    //ANNIVERSAIRE
+    @Test
+    public void testDescriptionAnniversaire() {
+        // Création d'un événement Anniversaire
+        AnniversaireEvent anniv = new AnniversaireEvent("40 ans de Pierre", "Pierre",
+                LocalDateTime.of(2025, 10, 10, 18, 0), 120, "un voyage surprise");
+
+        // Vérification que la description est ok
+        String descriptionAttendue = "Anniversaire : 40 ans de Pierre avec un voyage surprise";
+        assertEquals(descriptionAttendue, anniv.description());
+    }
+
+    //RDV perso
+    @Test
+    public void testDescriptionRDV() {
+        // Création d'un événement RDV
+        Event rdv = new Event("RDV médical", "Alice",
+                LocalDateTime.of(2025, 12, 1, 14, 0), 30) {
+            @Override
+            public String description() {
+                return "RDV : " + title + " à " + dateDebut.toString();
+            }
+        };
+
+        // Vérification que la description est pk
+        String descriptionAttendue = "RDV : RDV médical à 2025-12-01T14:00";
+        assertEquals(descriptionAttendue, rdv.description());
+    }
+
+    //REUNION
+    @Test
+    public void testDescriptionReunion() {
+        // Création d'un événement Réunion
+        ReunionEvent reunion = new ReunionEvent("Réunion projet", "Alice",
+                LocalDateTime.of(2025, 12, 1, 14, 0), 90, "Salle 101", "[Paul, Sophie]");
+
+        // Vérification que la description est ok
+        String descriptionAttendue = "Réunion : Réunion projet à Salle 101 avec [Paul, Sophie]";
+        assertEquals(descriptionAttendue, reunion.description());
+    }
+
+    //PERIODIQUE
+    @Test
+    public void testDescriptionPeriodique() {
+        // Création d'un événement Périodique
+        PeriodiqueEvent periodique = new PeriodiqueEvent("Yoga du matin", "Paul",
+                LocalDateTime.of(2025, 11, 1, 8, 0), 60, 7);
+
+        // Vérification que la description est ok
+        String descriptionAttendue = "Événement périodique : Yoga du matin tous les 7 jours";
+        assertEquals(descriptionAttendue, periodique.description());
+    }
 
 }
