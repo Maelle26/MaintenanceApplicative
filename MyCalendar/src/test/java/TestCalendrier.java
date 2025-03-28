@@ -145,4 +145,29 @@ public class TestCalendrier {
         assertEquals(descriptionAttendue, periodique.description());
     }
 
+    /**
+     * Fonctionnalités n°5: Supprimer un evenement
+     */
+    @Test
+    public void testSupprimerEventParId() {
+        // Création du gestionnaire de calendrier
+        CalendarManager calendrier = new CalendarManager();
+
+        // Ajout d'un événement avec un identifiant unique
+        Event event = new ReunionEvent("Réunion d'équipe", "Alice",
+                LocalDateTime.of(2025, 12, 1, 14, 0), 90, "Salle 101",
+                "[Paul, Sophie]");
+
+        calendrier.ajouterEvent(event);
+
+        // Vérification que l'événement est bien ajouté
+        assertEquals(1, calendrier.events.size());
+
+        // Suppression de l'événement via son identifiant métier
+        boolean suppressionReussie = calendrier.supprimerEvent(event.getId());
+
+        // Vérification que l'événement a bien été supprimé
+        assertTrue(suppressionReussie);
+        assertEquals(0, calendrier.events.size());
+    }
 }
