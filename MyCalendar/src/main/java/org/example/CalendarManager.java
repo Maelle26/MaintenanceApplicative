@@ -6,7 +6,7 @@ import java.util.List;
 
 public class CalendarManager {
     //Attributs
-    private final List<Event> events;
+    public final List<Event> events;
 
     /**
      * Constructeur
