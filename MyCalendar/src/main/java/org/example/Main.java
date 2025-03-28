@@ -131,7 +131,6 @@ public class Main {
         // Ajout de l'événement périodique
         calendar.ajouterEvent(pe );
 
-        System.out.println("Événement ajouté.");
     }
 
     /**
@@ -159,8 +158,6 @@ public class Main {
                 LocalDateTime.of(annee, moisRdv, jourRdv, heure, minute), duree);
         // Ajout du rdv perso
         calendar.ajouterEvent(rpe);
-
-        System.out.println("Événement ajouté.");
     }
 
     /**
@@ -202,7 +199,6 @@ public class Main {
                         // Ajout de la réunion
                         calendar.ajouterEvent(re);
 
-                        System.out.println("Événement ajouté.");
     }
 
     /**
@@ -227,7 +223,6 @@ public class Main {
         AnniversaireEvent anniversaire = new AnniversaireEvent(titre, nom, LocalDateTime.of(annee, mois, jour, 0, 0), duree, cadeau);
         calendar.ajouterEvent(anniversaire);
 
-        System.out.println("Événement ajouté.");
     }
 
     /**

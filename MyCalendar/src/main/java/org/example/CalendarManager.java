@@ -20,7 +20,16 @@ public class CalendarManager {
      * @param event l'événement à ajouter
      */
     public void ajouterEvent(Event event) {
+        //vérifie si l'evenement ne chevauche pas un autre evenement
+        for (Event e : events) {
+            if (conflit(event, e)) {
+                System.out.println("L'événement " + event.description() + " est en conflit avec l'événement " + e.description());
+                System.out.println("L'événement n'a pas été ajouté.");
+                return;
+            }
+        }
         events.add(event);
+        System.out.println("Evenement ajouté !");
     }
 
     /**
