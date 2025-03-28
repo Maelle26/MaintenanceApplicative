@@ -74,7 +74,8 @@ public class Main {
             System.out.println("2 - Ajouter un rendez-vous perso");
             System.out.println("3 - Ajouter une réunion");
             System.out.println("4 - Ajouter un évènement périodique");
-            System.out.println("5 - Se déconnecter");
+            System.out.println("5 - Ajouter un anniversaire");
+            System.out.println("6 - Se déconnecter");
             System.out.print("Votre choix : ");
             String choix = scanner.nextLine();
 
@@ -92,6 +93,9 @@ public class Main {
                     ajouterEvenementPeriodique();
                     break;
                 case "5":
+                    ajouterAnniversaire();
+                    break;
+                case "6":
                     System.out.println("Déconnexion !");
                     continuer = false;
                     break;
@@ -199,6 +203,31 @@ public class Main {
                         calendar.ajouterEvent(re);
 
                         System.out.println("Événement ajouté.");
+    }
+
+    /**
+     * Ajouter l'anniversaire de quelqu'un
+     */
+    public static void ajouterAnniversaire(){
+        System.out.print("Titre de l'événement : ");
+        String titre = scanner.nextLine();
+        System.out.print("Nom de la personne : ");
+        String nom = scanner.nextLine();
+        System.out.print("Année (AAAA) : ");
+        int annee = Integer.parseInt(scanner.nextLine());
+        System.out.print("Mois (1-12) : ");
+        int mois = Integer.parseInt(scanner.nextLine());
+        System.out.print("Jour (1-31) : ");
+        int jour = Integer.parseInt(scanner.nextLine());
+        System.out.print("Durée (en minutes) : ");
+        int duree = Integer.parseInt(scanner.nextLine());
+        System.out.print("Cadeau : ");
+        String cadeau = scanner.nextLine();
+
+        AnniversaireEvent anniversaire = new AnniversaireEvent(titre, nom, LocalDateTime.of(annee, mois, jour, 0, 0), duree, cadeau);
+        calendar.ajouterEvent(anniversaire);
+
+        System.out.println("Événement ajouté.");
     }
 
     /**
