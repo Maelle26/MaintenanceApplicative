@@ -24,6 +24,7 @@ public class Main {
             switch (choix) {
                 case "1":
                     if (connexionManager.connecterUtilisateur()) {
+                        continuer = true;
                         menuUtilisateur();
                     }
                     break;
@@ -120,9 +121,11 @@ public class Main {
         System.out.print("Frequence (en jours) : ");
         int frequence = Integer.parseInt(scanner.nextLine());
 
-        calendar.ajouterEvent("PERIODIQUE", titre3, utilisateurs.get(0).getNom(),
-                LocalDateTime.of(annee3, moisRdv3, jourRdv3, heure3, minute3), 0,
-                "", "", frequence);
+        // Création de l'événement périodique
+        PeriodiqueEvent pe = new PeriodiqueEvent(titre3, utilisateurs.get(0).getNom(),
+                LocalDateTime.of(annee3, moisRdv3, jourRdv3, heure3, minute3), 60, frequence);
+        // Ajout de l'événement périodique
+        calendar.ajouterEvent(pe );
 
         System.out.println("Événement ajouté.");
     }
@@ -147,9 +150,11 @@ public class Main {
         System.out.print("Durée (en minutes) : ");
         int duree = Integer.parseInt(scanner.nextLine());
 
-        calendar.ajouterEvent("RDV_PERSONNEL", titre, utilisateurs.get(0).getNom(),
-                LocalDateTime.of(annee, moisRdv, jourRdv, heure, minute), duree,
-                "", "", 0);
+        // Création du rdv perso
+        RdvPersoEvent rpe = new RdvPersoEvent(titre, utilisateurs.get(0).getNom(),
+                LocalDateTime.of(annee, moisRdv, jourRdv, heure, minute), duree);
+        // Ajout du rdv perso
+        calendar.ajouterEvent(rpe);
 
         System.out.println("Événement ajouté.");
     }
@@ -186,9 +191,12 @@ public class Main {
                             participants += ", " + scanner.nextLine();
                         }
 
-                        calendar.ajouterEvent("REUNION", titre2, utilisateurs.get(0).getNom(),
-                                LocalDateTime.of(annee2, moisRdv2, jourRdv2, heure2, minute2), duree2,
-                                lieu, participants, 0);
+                        // Création de la réunion (propriétaire = utilisateur connecté)
+                        String proprietaire = utilisateurs.get(0).getNom();
+                        ReunionEvent re = new ReunionEvent(titre2, proprietaire, LocalDateTime.of(annee2, moisRdv2, jourRdv2, heure2, minute2), duree2, lieu, participants);
+
+                        // Ajout de la réunion
+                        calendar.ajouterEvent(re);
 
                         System.out.println("Événement ajouté.");
     }
