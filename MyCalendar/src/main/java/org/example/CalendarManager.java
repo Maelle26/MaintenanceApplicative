@@ -108,7 +108,7 @@ public class CalendarManager {
      */
     public void afficherEvenements() {
         for (Event e : events) {
-            System.out.println(e.description());
+            System.out.println(e.getId() + e.description());
         }
     }
 
@@ -121,4 +121,19 @@ public class CalendarManager {
         }
         return evenementsTrouves;
     }
+
+    /**
+     * Méthode qui supprime un événement de la liste des événements grace à son ID
+     */
+    public boolean supprimerEvent(int eventId) {
+        for (Event e : events) {
+            if (e.getId() == (eventId)) {
+                events.remove(e);
+                System.out.println("Evenement supprimé !");
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
